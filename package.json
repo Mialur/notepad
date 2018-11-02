@@ -1,18 +1,19 @@
 {
-  "name": "drivenotepad",
-  "version": "3.0.0",
+  "name": "notepad",
+  "version": "1.0.1",
   "main": "src/html/app.html",
   "scripts": {
     "build": "cleancss src/css/app.css -o css/app.css && uglifyjs node_modules/keymaster/keymaster.js src/js/patch_ace.js src/js/utils.js src/js/offline_simple.js src/js/drop_down.js src/js/info.js src/js/file_model.js src/js/settings_pane.js src/js/open_pane.js src/js/help_pane.js src/js/using_apis.js src/js/clipboard.js src/js/save.js src/js/print.js src/js/file_pane.js src/js/patch_ace_history.js src/js/history_tool.js src/js/find_pane.js src/js/keyboard.js src/js/main.js -o js/app.js --source-map src/all.build.map.json --source-map-include-sources --screw-ie8v && html-minifier src/html/app.html -o index.html --minify-js --collapse-whitespace --conservative-collapse",
+    "build-js": "uglifyjs -b -nm -ns node_modules/keymaster/keymaster.js src/js/patch_ace.js src/js/utils.js src/js/offline_simple.js src/js/drop_down.js src/js/info.js src/js/file_model.js src/js/settings_pane.js src/js/open_pane.js src/js/help_pane.js src/js/using_apis.js src/js/clipboard.js src/js/save.js src/js/print.js src/js/file_pane.js src/js/patch_ace_history.js src/js/history_tool.js src/js/find_pane.js src/js/keyboard.js src/js/main.js -o js/app.js --source-map src/all.build.map.json --source-map-include-sources --screw-ie8v",
     "beauty": "cleancss src/css/app.css -o css/app.css && uglifyjs -b -nm -ns node_modules/keymaster/keymaster.js src/js/patch_ace.js src/js/utils.js src/js/offline_simple.js src/js/drop_down.js src/js/info.js src/js/file_model.js src/js/settings_pane.js src/js/open_pane.js src/js/help_pane.js src/js/using_apis.js src/js/clipboard.js src/js/save.js src/js/print.js src/js/file_pane.js src/js/patch_ace_history.js src/js/history_tool.js src/js/find_pane.js src/js/keyboard.js src/js/main.js -o js/app.js --source-map src/all.build.map.json --source-map-include-sources --screw-ie8v && html-minifier src/html/app.html -o index.html --minify-js --collapse-whitespace --conservative-collapse"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/drivenotepad/app.git"
+    "url": "https://github.com/mialur/notepad.git"
   },
   "author": "D.M.",
   "bugs": {
-    "url": "https://github.com/drivenotepad/app/issues"
+    "url": "https://github.com/mialur/notepad/issues"
   },
   "homepage": "https://drivenotepad.github.com",
   "devDependencies": {
