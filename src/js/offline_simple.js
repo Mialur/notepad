@@ -46,7 +46,7 @@ var run_test = function() {
 	timer = 0;
 	console.log("testing for internet access")
     var xhr = new XMLHttpRequest;
-    xhr.open('HEAD', "/favicon.ico?_=" + ((new Date()).getTime()), true);
+    xhr.open('HEAD', "/img/favicon.ico?_=" + ((new Date()).getTime()), true);
     if (xhr.timeout != null) 
     	xhr.timeout = 5000;
 

@@ -121,8 +121,8 @@ var until_success = function(e) {
                 try {
                     var o = t(r);
                     if (o) return n(o);
-                } catch (e) {
-                    return i(e);
+                } catch (a) {
+                    return i(a);
                 }
             }
             return new Promise(e).then(n, s);
@@ -191,7 +191,7 @@ var offline_simple = function() {
         i = 0;
         console.log("testing for internet access");
         var e = new XMLHttpRequest();
-        e.open("HEAD", "/favicon.ico?_=" + new Date().getTime(), true);
+        e.open("HEAD", "/img/favicon.ico?_=" + new Date().getTime(), true);
         if (e.timeout != null) e.timeout = 5e3;
         var t = function() {
             if (e.status && e.status < 12e3) a("online"); else r();
@@ -207,7 +207,7 @@ var offline_simple = function() {
         }
         try {
             e.send();
-        } catch (e) {
+        } catch (n) {
             r();
         }
     };
@@ -380,7 +380,7 @@ dn.tooltip_info = {
     drive: "Show this file in Google Drive.  ",
     about: "Drive Notepad website.",
     shortcuts: "Keyboard shortcuts.",
-    new: "Create new file in a new tab.  ",
+    "new": "Create new file in a new tab.  ",
     open: "Launch open dialoag.  ",
     settings_file: "Properties of the current file.",
     settings_general: "Your general Drive Notepad preferences.",
@@ -609,58 +609,58 @@ dn.FileModel.prototype.compute_tabs = function() {
         if (!(t.val === "tab" || t.val === "spaces")) throw 0;
         if (!(t.n >= dn.const_.min_soft_tab_n && t.n <= dn.const_.max_soft_tab_n)) t.n = undefined;
         if (t.val === "spaces" && t.n === undefined) throw 0;
-    } catch (e) {
+    } catch (n) {
         t = {
             val: "detect"
         };
     }
     this.properties.tabs = t;
     if (t.val === "tab") this.properties_chosen.tabs = t; else if (t.val === "spaces") this.properties_chosen.tabs = t; else this.properties_chosen.tabs = undefined;
-    var n = e.match(this.re_whitepace) || [];
-    var i = 0;
-    var s;
-    var r = [];
-    var o = 0;
-    var a = Math.min(n.length, 1e3);
-    for (var d = 0; d < a; d++) {
-        var l = n[d];
-        var _ = l.replace("\t", "");
-        if (_.length === 0) i++; else if (_.length !== l.length) o++; else r[l.length] = (r[l.length] || 0) + 1;
+    var i = e.match(this.re_whitepace) || [];
+    var s = 0;
+    var r;
+    var o = [];
+    var a = 0;
+    var d = Math.min(i.length, 1e3);
+    for (var l = 0; l < d; l++) {
+        var _ = i[l];
+        var c = _.replace("\t", "");
+        if (c.length === 0) s++; else if (c.length !== _.length) a++; else o[_.length] = (o[_.length] || 0) + 1;
     }
-    s = a - o - i;
-    if (i / a >= dn.const_.detect_tabs_tabs_frac) {
+    r = d - a - s;
+    if (s / d >= dn.const_.detect_tabs_tabs_frac) {
         this.properties_detected_info.tabs = "hard tab indentation detected";
         if (this.properties_chosen.tabs === undefined) this.properties_chosen.tabs = {
             val: "tabs"
         };
         if (this.properties_chosen.tabs.n === undefined) this.properties_chosen.tabs.n = dn.g_settings.get("softTabN");
-    } else if (a === 0 || s / a < dn.const_.detect_tabs_spaces_frac) {
+    } else if (d === 0 || r / d < dn.const_.detect_tabs_spaces_frac) {
         if (this.properties_chosen.tabs === undefined) {
             this.properties_chosen.tabs = {
                 val: dn.g_settings.get("tabIsHard") ? "tabs" : "spaces",
                 n: dn.g_settings.get("softTabN")
             };
         }
-        this.properties_detected_info.tabs = (a === 0 ? "no indentations detected" : "detected mixture of tabs") + ", default is " + (this.properties_chosen.tabs.val == "tabs" ? "hard tabs" : dn.g_settings.get("softTabN") + " spaces");
+        this.properties_detected_info.tabs = (d === 0 ? "no indentations detected" : "detected mixture of tabs") + ", default is " + (this.properties_chosen.tabs.val == "tabs" ? "hard tabs" : dn.g_settings.get("softTabN") + " spaces");
     } else {
-        var c = [];
-        for (var u = dn.const_.min_soft_tab_n; u <= dn.const_.max_soft_tab_n; u++) {
-            for (var d = u, f = 0; d < r.length; d += u) f += r[d] === undefined ? 0 : r[d];
-            c[u] = f;
+        var u = [];
+        for (var f = dn.const_.min_soft_tab_n; f <= dn.const_.max_soft_tab_n; f++) {
+            for (var l = f, p = 0; l < o.length; l += f) p += o[l] === undefined ? 0 : o[l];
+            u[f] = p;
         }
-        var u;
-        for (u = dn.const_.max_soft_tab_n; u >= dn.const_.min_soft_tab_n; u--) if (c[u] / s > dn.const_.detect_tabs_n_spaces_frac) {
-            this.properties_detected_info.tabs = "detected soft-tabs of " + u + " spaces";
+        var f;
+        for (f = dn.const_.max_soft_tab_n; f >= dn.const_.min_soft_tab_n; f--) if (u[f] / r > dn.const_.detect_tabs_n_spaces_frac) {
+            this.properties_detected_info.tabs = "detected soft-tabs of " + f + " spaces";
             break;
         }
-        if (u < dn.const_.min_soft_tab_n) {
-            u = dn.g_settings.get("softTabN");
-            if (c[u] / s > dn.const_.detect_tabs_n_spaces_frac_for_default) this.properties_detected_info.tabs = "detected close match to default of " + u + " spaces"; else this.properties_detected_info.tabs = "detected soft-tabs, assuming default " + u + " spaces";
+        if (f < dn.const_.min_soft_tab_n) {
+            f = dn.g_settings.get("softTabN");
+            if (u[f] / r > dn.const_.detect_tabs_n_spaces_frac_for_default) this.properties_detected_info.tabs = "detected close match to default of " + f + " spaces"; else this.properties_detected_info.tabs = "detected soft-tabs, assuming default " + f + " spaces";
         }
         if (this.properties_chosen.tabs === undefined) this.properties_chosen.tabs = {
             val: "spaces"
         };
-        if (this.properties_chosen.tabs.n === undefined) this.properties_chosen.tabs.n = u;
+        if (this.properties_chosen.tabs.n === undefined) this.properties_chosen.tabs.n = f;
     }
     this.trigger("change", {
         property: "tabs"
@@ -854,8 +854,8 @@ dn.open_pane = function() {
                     if (!t) throw "could not build picker";
                 }
                 t.setVisible(true);
-            } catch (e) {
-                dn.show_error("" + e);
+            } catch (n) {
+                dn.show_error("" + n);
             }
         });
     };
@@ -966,16 +966,16 @@ dn.is_auth_error = function(e) {
                 exDescription: t
             });
         }
-    } catch (e) {}
+    } catch (n) {}
     if (e.type === "token_refresh_required" || e.status === 401) return 1;
     if (e.status === 403) {
-        var n = "";
+        var i = "";
         try {
-            n = e.result.error.errors[0].reason;
-        } catch (e) {}
-        if (n === "domainPolicy") return 0;
-        if (n === "insufficientFilePermissions") return 0;
-        if (n === "cannotDownloadAbusiveFile") return 0;
+            i = e.result.error.errors[0].reason;
+        } catch (n) {}
+        if (i === "domainPolicy") return 0;
+        if (i === "insufficientFilePermissions") return 0;
+        if (i === "cannotDownloadAbusiveFile") return 0;
         return 1;
     }
     if (e.status === 404) return 0;
@@ -991,7 +991,7 @@ dn.api_error_to_string = function(e) {
     var t = "";
     try {
         t = e.result.error.errors[0].reason;
-    } catch (e) {}
+    } catch (n) {}
     if (t === "insufficientFilePermissions") return "You do not have permission to modify the file.";
     if (t === "domainPolicy") return "Your domain administrators have disabled Drive apps.";
     if (e.result && e.result.error && e.result.error.message !== undefined) {
@@ -2545,8 +2545,8 @@ dn.find_pane = function(e) {
         var s = undefined;
         try {
             s = B();
-        } catch (e) {
-            t.info.textContent = escape_str(e.message);
+        } catch (r) {
+            t.info.textContent = escape_str(r.message);
         }
         if (s === undefined) {
             dn.editor.selection.clearSelection();
@@ -2554,23 +2554,23 @@ dn.find_pane = function(e) {
             t.info.textContent = "type to search. ";
             dn.editor.selection.clearSelection();
         } else {
-            var r = new i();
-            r.setOptions(s);
-            o = r.findAll(e);
+            var c = new i();
+            c.setOptions(s);
+            o = c.findAll(e);
             if (o.length === 0) {
                 t.info.textContent = "no matches found.";
                 t.info_overflow.textContent = "";
                 dn.editor.selection.clearSelection();
             } else {
-                var c = e.getSelection().getRange();
-                for (var n = 0; n < o.length; n++) if (o[n].end.row > c.start.row || o[n].end.row == c.start.row && o[n].end.column >= c.start.column) break;
-                var u = n == o.length ? o.length - 1 : n;
+                var u = e.getSelection().getRange();
+                for (var n = 0; n < o.length; n++) if (o[n].end.row > u.start.row || o[n].end.row == u.start.row && o[n].end.column >= u.start.column) break;
+                var f = n == o.length ? o.length - 1 : n;
                 for (var n = 0; n < o.length; n++) d.push(e.addMarker(o[n], "find_match_marker", "find_match_marker", false));
                 for (var n = 0; n < o.length; n++) o[n] = {
                     range: o[n],
                     idx: n
                 };
-                T(u);
+                T(f);
             }
         }
     };
@@ -3058,7 +3058,7 @@ dn.load_default_settings = function() {
     try {
         console.log("Loading default/localStorage settings...");
         for (var e in dn.default_settings) if (dn.impersonal_settings_keys.indexOf(e) == -1 || !localStorage || !localStorage["g_settings_" + e]) dn.g_settings.set(e, dn.default_settings[e]); else dn.g_settings.set(e, JSON.parse(localStorage["g_settings_" + e]));
-    } catch (e) {
+    } catch (t) {
         if (localStorage) localStorage.clear();
         console.log("Failed to load defaults/localStorage settings.  Have cleared localStorage cache.");
     }
@@ -3071,8 +3071,8 @@ dn.show_app_data_document = function(e) {
         try {
             e.getModel().beginCompoundOperation();
             n = t();
-        } catch (e) {
-            console.log("error in atomic update:\n" + e);
+        } catch (i) {
+            console.log("error in atomic update:\n" + i);
         } finally {
             e.getModel().endCompoundOperation();
         }
@@ -3180,10 +3180,10 @@ dn.settings_changed = function(e) {
             if (t !== "pane_help") dn.g_settings.set("help_inner", "main");
             break;
         }
-    } catch (t) {
+    } catch (a) {
         console.log("Error while uptating new settings value.");
         console.dir(e);
-        console.dir(t);
+        console.dir(a);
     }
 };
 
@@ -3541,4 +3541,4 @@ if (document.readyState != "loading" && document.getElementById("the_widget")) {
 } else {
     document.addEventListener("DOMContentLoaded", dn.document_ready);
 }
-//# sourceMappingURL=all.build.map.js
+//# sourceMappingURL=src/all.build.map.json

@@ -1,3 +1,4 @@
+
 # Drive Notepad
 
 A webapp for editing text files in Google Drive, implemented entirely on the client-side.
@@ -38,7 +39,7 @@ Everything is attached to the `dn` global object apart from a few basic utility 
 
 There are (at least) two separate MVC systems at play in the app, one for the file's metadata and one for the application's setttings.  Interested parties can subscribe to a particular model's changes using `.addEventListener`.
 
-The main model is `dn.g_settings`.  At some point after the page loads, this becomes a Google Realtime API `AppDataDocument` `Model`, before that it is a simple home-made object that behaves very similarly. When the realtime model becomes availble, we call `.transfer_to_true_model` on the mock version, which issues any required change events and then registers the old event listeners with the new model.  The home-made object uses `localStorage` for non-personal settings values so that it can restore them immediately on page load.  Also, when migrating to the real model, some settings give the cloud model prioroty and some give the local model priority, this prevents excessive jumpiness for highly-visible things that don't matter that much, ie. the widget's position.
+The main model is `dn.g_settings`.  At some point after the page loads, this becomes a Google Realtime API `AppDataDocument` `Model`, before that it is a simple home-made object that behaves very similarly. When the realtime model becomes availble, we call `.transfer_to_true_model` on the mock version, which issues any required change events and then registers the old event listeners with the new model.  The home-made object uses `localStorage` for non-personal settings values so that it can restore them immediately on page load.  Also, when migrating to the real model, some settings give the cloud model priority and some give the local model priority, this prevents excessive jumpiness for highly-visible things that don't matter that much, ie. the widget's position.
 
 A second model is `dn.the_file`, which is an instance of `dn.FileModel` (defined in `file_model.js`).  This is a relatively simple object which backs the metadata shown in the file pane.  The only complexity is that when you change some of the values it has to recompute some of the data, e.g. if you change the file's title it has to recompute the message about the detected syntax and, unless a syntax was explicity specified by the user, it must update the chosen syntax. For simplicity, saving (to the server) is handled by the controllers in `dn.file_pane`, it's just easier to tie the saving action to user actions rather than arbitrary updates on the model.
 
