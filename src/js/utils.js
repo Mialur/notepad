@@ -1,5 +1,9 @@
 "use strict";
 
+/**
+ * @param {Array} arr
+ * @return {string}
+ */
 var oxford_comma = function(arr){
     switch (arr.length){
         case 1:
@@ -9,45 +13,74 @@ var oxford_comma = function(arr){
         case 3:
             return arr[0] + ", " + arr[1] + ", and " + arr[2];
     }
-}
+};
 
+/**
+ * @param {!Element} el
+ * @param {string} deg
+ * @return {undefined}
+ */
 var rotate = function(el, deg){
     el.style.transform = "rotate(" + deg + 'deg)';
     el.style.webkitTansform = "rotate(" + deg + 'deg)';
     el.style.mozTransform = "rotate(" + deg + 'deg)';
 }
 
+/**
+ * @param {!Element} el
+ * @param {number} x
+ * @param {number} y
+ * @return {undefined}
+ */
 var translate = function(el, x, y){
     var str = x==null ? "" : "translate(" + x + "px," + y + "px)";
     el.style.transform = str;
     el.style.webkitTransform = str;
     el.style.mozTransform = str;
-}
+};
 
+/**
+ * @param {!Object} el
+ * @param {string} text
+ * @param {boolean} truncate_long_words
+ * @return {undefined}
+ */
 var text_multi = function(el, text, truncate_long_words){
     if(truncate_long_words){
         text = text.replace(/(\S{25})\S*/g,'$1...'); 
     }
     el.textContent = text;  
     el.innerHTML = el.innerHTML.replace(/\n/g,'<br/>').replace(/\t/g,'&nbsp;&nbsp;&nbsp; ');
-}
+};
 
+/**
+ * @param {string} str
+ * @return {string}
+ */
 var escape_str = function(str){
     // http://stackoverflow.com/a/18750001/2399799
     str = str || "";
     return str.replace(/[\u00A0-\u9999<>\&]/g, function(i) {
         return '&#' + i.charCodeAt(0) + ';';
     });
-}
+};
 
+/**
+ * @param {string} str
+ * @return {undefined}
+ */
 var hex_print_string = function(str){
     // only for debugging
     var c = [];
     for(var ii=0; ii<str.length; ii++)
         c.push(str.charCodeAt(ii).toString(16))
     console.log(c.join(" "))
-}
+};
 
+/**
+ * @param {string} str
+ * @return {?}
+ */
 var js_str_from_utf16 = function(str){
     // There's the endianness of the encoding and the endianness of the current CPU.
     // we only need to know the "relative" endian-ness in order to make a suitable request to TextDecoder.
@@ -60,8 +93,12 @@ var js_str_from_utf16 = function(str){
         arr[ii-2] = str.charCodeAt(ii);
     
     return (new TextDecoder('utf-16' + endian )).decode( new Uint16Array(arr.buffer));
-}
+};
 
+/**
+ * @param {string} body
+ * @return {?}
+ */
 var decode_body = function(body){
     body = body || "";
     // TODO: it might be better to use TextDecoder for UTF8 as well as 16, but you need a pollyfil for non Chrome/FF
@@ -74,7 +111,7 @@ var decode_body = function(body){
     } catch (e) {
        return body;
     }
-}
+};
 
 var css_animation = (function(){
     var timers = []; // we store timers and matching els so we can cancel if needed
@@ -95,19 +132,35 @@ var css_animation = (function(){
     }
 })();
 
+/**
+ * @param {!Event} e
+ * @return {undefined}
+ */
 var stop_propagation = function(e){
-    e.stopPropagation();
+  e.stopPropagation();
 }
 
-var prevent_default = function(e){
-    e.preventDefault();  
-}
+/**
+ * @param {!Event} e
+ * @return {undefined}
+ */
+var prevent_default = function(e) {
+  e.preventDefault();
+};
 
-var prevent_default_and_stop_propagation = function(e){
-    e.stopPropagation();
-    e.preventDefault();
-}
+/**
+ * @param {!Event} e
+ * @return {undefined}
+ */
+var prevent_default_and_stop_propagation = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+};
 
+/**
+ * @param {?} executor
+ * @return {?}
+ */
 var until_success = function(executor){
     /* This was confusing to write, so when I finished I turned it into an S.O. answer:
           http://stackoverflow.com/a/35782428/2399799  
@@ -136,17 +189,22 @@ var until_success = function(executor){
         return outer_promise;
     }
     return outer_promise;
-}
+};
 
-
-
-
+/**
+ * @param {string} str
+ * @return {?}
+ */
 var ext_from_filename = function(str){
     // http://stackoverflow.com/a/12900504/2399799
     str = str || ""
     return str.slice((Math.max(0, str.lastIndexOf(".")) || Infinity) + 1);
-}
+};
 
+/**
+ * @param {string} url
+ * @return {undefined}
+ */
 var load_script_async = function(url){
     // method used by ga, which seems to work nicely
     var new_el = document.createElement('script');
@@ -154,4 +212,4 @@ var load_script_async = function(url){
     new_el.src = url;
     var something_el = document.getElementsByTagName('script')[0];
     something_el.parentNode.insertBefore(new_el, something_el);     
-}
+};
